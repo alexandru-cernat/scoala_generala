@@ -24,4 +24,9 @@ public class ElevService {
     public List<Elev> getElevi(){
         return (List<Elev>) elevRepository.findAll();
     }
+
+    public void addElev(Elev elev )
+    {
+        elevRepository.save(elev);
+    }
 }

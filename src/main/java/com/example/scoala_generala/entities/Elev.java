@@ -1,5 +1,6 @@
 package com.example.scoala_generala.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,20 +17,20 @@ import javax.persistence.*;
 public class Elev {
 
     @Id
-    private String SSN; //social security number (CNP)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     private String firstName;
     private String lastName;
     private String address;
     private String emailAddress;
     private String phoneNumber;
+    private String SSN; //social security number (CNP)
 
-//    // chiar daca am folosit lombok, am generat constructorul asta pentru ca vreau sa fie fara SSN
-//    public Elev(String firstName, String lastName, String address, String emailAddress, String phoneNumber) {
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.address = address;
-//        this.emailAddress = emailAddress;
-//        this.phoneNumber = phoneNumber;
-//    }
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="clasa_id")
+    @JsonIgnore
+    private Clasa clasa;
+
+
 }
