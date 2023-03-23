@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface ElevRepository extends CrudRepository<Elev,String> {
+public interface ElevRepository extends CrudRepository<Elev,Integer> {
     Optional<Elev> findBySSN(String SSN);
     Optional<Elev> findById(int id);
 }

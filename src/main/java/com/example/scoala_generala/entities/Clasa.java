@@ -1,7 +1,6 @@
 package com.example.scoala_generala.entities;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,4 +38,7 @@ public class Clasa {
     {
         eleviiClasei.remove(e);
     }
+
+    @ManyToMany (mappedBy = "claseleProfesorului")
+    private List<Profesor> profesoriiClasei = new ArrayList<>();
 }

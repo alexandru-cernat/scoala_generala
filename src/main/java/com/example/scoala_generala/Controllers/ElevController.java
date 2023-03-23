@@ -20,35 +20,41 @@ public class ElevController {
     @Autowired
     private final ElevService elevService;
 
+   //Afiseaza detaliile unui elev, cautat dupa SSM (CNP)
     @GetMapping(path="/getBySSN/{SSN}")
     public Optional<Elev> getEleviBySSN(@PathVariable String SSN) {
         return elevService.getElevBySSN(SSN);
     }
 
+    //Afiseaza toti elevii
     @GetMapping(path="getAll")
     public List<Elev> getElevi()
     {
         return elevService.getElevi();
     }
 
+
+    //Adauga un nou elev.
+    @PostMapping(path="/Add")
+    public void addElev (@RequestBody Elev elev){
+        elevService.addElev(elev);
+    }
+
+    //Asigneaza o clasa unui elev
     @PutMapping(path="/addClasa/{idElev}")
     public void asigneazaClasa(@PathVariable int idElev, @RequestBody Clasa clasa_asignata) {
         elevService.asigneazaClasa(idElev, clasa_asignata);
     }
 
 
-
-    @PostMapping(path="/Add")
-    public void addElev (@RequestBody Elev elev){
-        elevService.addElev(elev);
-    }
-
+    //Muta elevul in alta clasa
     @PutMapping(path="/MoveElev/{idElev}")
     public void moveElev(@PathVariable int idElev, @RequestBody Clasa nouaClasa)
     {
         elevService.moveElev(idElev,nouaClasa);
     }
 
+    //Sterge elevul
     @DeleteMapping(path="/Delete/{idElev}")
     public void deleteElev(@PathVariable int idElev)
     {

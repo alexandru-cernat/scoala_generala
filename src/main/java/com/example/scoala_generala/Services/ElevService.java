@@ -34,16 +34,16 @@ public class ElevService {
         elevRepository.save(elev);
     }
 
-    public void asigneazaClasa ( int id_elev, Clasa clasa_asignata)
+    public void asigneazaClasa ( int id_elev, Clasa clasaAsignata)
     {
-        Optional<Elev> aux = elevRepository.findById(id_elev);
-        if (aux.isPresent()){
-            Elev e = aux.get();
-            e.setClasa(clasa_asignata);
-            elevRepository.save(e);
+        Optional<Elev> elevOptional = elevRepository.findById(id_elev);
+        if (elevOptional.isPresent()){
+            Elev elevNou = elevOptional.get();
+            elevNou.setClasa(clasaAsignata);
+            elevRepository.save(elevNou);
 
-            clasa_asignata.appendEleviiClasei(e);
-            clasaRepository.save(clasa_asignata);
+            clasaAsignata.appendEleviiClasei(elevNou);
+            clasaRepository.save(clasaAsignata);
 
         }
     }
@@ -77,5 +77,6 @@ public class ElevService {
             Clasa clasaElevului = elevSters.getClasa();
             elevRepository.delete(elevSters);
             clasaElevului.stergeEleviiClasei(elevSters);
+            clasaRepository.save(clasaElevului);
         }
 }
