@@ -7,3 +7,65 @@ adaugam elev fara a-i specifica clasa. endpointul asigneazaClasa ii asigneaza o 
 
 altele:
 endpointuri pentru a afisa elevi dupa SSN(CNP), toti elevii sau toate clasele.
+
++-------------------------+                                 +----------------------------+
+|          ELEVI          |                                 |         CLASE              |
++-------------------------+                                 +----------------------------+
+|                         |                                 |                            |
+| id Pk                   |                                 |   id Pk                    |
+|                         |                                 |                            |
+| firstName               |                                 |   numeClasa                |
+|                         |                                 |                            |
+| lastName                |                                 |   listaElevi               |
+|                         |invata la                    are |                            |
+| address                 +---------------------------------+                            |
+|                         |M                               1|                            |
+| emailAddress            |                                 |                            |
+|                         |                                 |                            |
+| phoneNumber             |                                 |                            |
+|                         |                                 |                            |
+| ssn                     |                                 |                            |
+|                         |                                 |                            |
+| clasa (Fk)              |                                 |                            |
+|                         |                                 |                            |
+|                         |                                 |                            |
+|                         |                                 |                            |
++-------------------------+                                 +---------------+------------+
+                                                                            |
+                                                                            |
++-------------------------+                                                 |
+|      PROFESORI          |                                                 |
++-------------------------+                                                 |
+|                         |                                                 |
+| id Pk                   |                                                 |
+|                         |                                                 |
+| firstName               |                                                 |
+|                         |                                                 |
+| lastName                |                                                 |
+|                         |                                                 |
+| speciality              |                                                 |
+|                         |                                                 |
+|                         |                                                 |
+|                         |                                                 |
+|                         |                                                 |
+|                         |                                                 |
+|                         |                                                 |
++-----------+-------------+                                                 |
+            |                                                               |
+            |                                                               |
+            |                                                               |
+            |                                                               |
+            |                                                               |
+            |               +------------------------------+                |
+            |               |                              |                |
+            |               |     PROFESOR_PREDA_LA_CLASA  |                |
+            |               +------------------------------+                |
+            |               |                              |                |
+            |               |                              |                |
+            |               |   id_profesor Pk Fk          |                |
+            +---------------+                              +----------------+
+                            |   id_clasa Pk Fk             |
+                            |                              |
+                            |                              |
+                            |                              |
+                            +------------------------------+
