@@ -1,6 +1,8 @@
 package com.example.scoala_generala.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,10 +29,9 @@ public class Elev {
     private String phoneNumber;
     private String SSN; //social security number (CNP)
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="clasa_id")
-    @JsonIgnore
+    @JsonBackReference
     private Clasa clasa;
-
 
 }

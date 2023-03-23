@@ -2,6 +2,7 @@ package com.example.scoala_generala.Controllers;
 
 
 import com.example.scoala_generala.Services.ElevService;
+import com.example.scoala_generala.entities.Clasa;
 import com.example.scoala_generala.entities.Elev;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -30,8 +31,21 @@ public class ElevController {
         return elevService.getElevi();
     }
 
+    @PutMapping(path="/addClasa/{id_elev}")
+    public void asigneazaClasa(@PathVariable int id_elev, @RequestBody Clasa clasa_asignata) {
+        elevService.asigneazaClasa(id_elev, clasa_asignata);
+    }
+
+
+
     @PostMapping(path="/Add")
     public void addElev (@RequestBody Elev elev){
         elevService.addElev(elev);
     }
+
+//    @PutMapping(path="/MoveElev/{id_elev}")
+//    public void moveElev(@PathVariable int idElev, @RequestBody Clasa nouaClasa)
+//    {
+//        elevService.moveElev(int idElev, Clasa nouaClasa);
+//    }
 }

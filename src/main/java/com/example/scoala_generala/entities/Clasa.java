@@ -1,6 +1,8 @@
 package com.example.scoala_generala.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,8 +16,8 @@ import java.util.List;
 @Table(name="clase")
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
 @Getter
+@Setter
 public class Clasa {
 
     @Id
@@ -24,6 +26,12 @@ public class Clasa {
 
     private String numeClasa;
 
-//    @OneToMany(mappedBy = "clasa")
-//    private List<Elev> eleviiClasei = new ArrayList<>();
+    @OneToMany(mappedBy = "clasa")
+    @JsonManagedReference
+    private List<Elev> eleviiClasei = new ArrayList<>();
+
+
+    public void appendEleviiClasei(Elev e) {
+        this.eleviiClasei.add(e);
+    }
 }
