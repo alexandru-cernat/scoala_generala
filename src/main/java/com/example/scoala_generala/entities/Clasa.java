@@ -34,4 +34,9 @@ public class Clasa {
     public void appendEleviiClasei(Elev e) {
         this.eleviiClasei.add(e);
     }
+
+    public void stergeEleviiClasei(Elev e)
+    {
+        eleviiClasei.remove(e);
+    }
 }

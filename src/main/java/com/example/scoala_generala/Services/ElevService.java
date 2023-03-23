@@ -42,20 +42,40 @@ public class ElevService {
             e.setClasa(clasa_asignata);
             elevRepository.save(e);
 
-            Clasa clasa_aux = new Clasa(clasa_asignata.getId(),
-                    clasa_asignata.getNumeClasa(),
-                    clasa_asignata.getEleviiClasei() );
-
-            clasa_aux.appendEleviiClasei(e);
-            clasaRepository.save(clasa_aux);
+            clasa_asignata.appendEleviiClasei(e);
+            clasaRepository.save(clasa_asignata);
 
         }
     }
 
-//    public void moveElev(int idElev, Clasa nouaClasa)
-//    {
-//        Optional <Elev> aux = elevRepository.findById(idElev);
-//        if(aux.isPresent()){
-//            Elev e = aux.get();
+    public void moveElev(int idElev, Clasa nouaClasa){
+        Optional<Elev> elevOptional= elevRepository.findById(idElev);
+        if(elevOptional.isPresent()){
+            Elev elevMutat = elevOptional.get();
+            Clasa clasaVeche = elevMutat.getClasa();
+            clasaVeche.stergeEleviiClasei(elevMutat);
+            clasaRepository.save(clasaVeche);
+
+            // adauga clasa noua elevului
+            elevMutat.setClasa(nouaClasa);
+            elevRepository.save(elevMutat);
+
+            // adaugarea in lista de elevi a clasei noi
+
+            nouaClasa.appendEleviiClasei(elevMutat);
+            clasaRepository.save(nouaClasa);
+
 
         }
+
+    }
+        public void deleteElev(int idElev){
+            // sterg elevul si din clasa
+            Optional<Elev> elevOptional = elevRepository.findById(idElev);
+            Elev elevSters = elevOptional.get();
+
+            Clasa clasaElevului = elevSters.getClasa();
+            elevRepository.delete(elevSters);
+            clasaElevului.stergeEleviiClasei(elevSters);
+        }
+}

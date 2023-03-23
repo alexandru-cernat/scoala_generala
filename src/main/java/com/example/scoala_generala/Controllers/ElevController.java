@@ -31,9 +31,9 @@ public class ElevController {
         return elevService.getElevi();
     }
 
-    @PutMapping(path="/addClasa/{id_elev}")
-    public void asigneazaClasa(@PathVariable int id_elev, @RequestBody Clasa clasa_asignata) {
-        elevService.asigneazaClasa(id_elev, clasa_asignata);
+    @PutMapping(path="/addClasa/{idElev}")
+    public void asigneazaClasa(@PathVariable int idElev, @RequestBody Clasa clasa_asignata) {
+        elevService.asigneazaClasa(idElev, clasa_asignata);
     }
 
 
@@ -43,9 +43,16 @@ public class ElevController {
         elevService.addElev(elev);
     }
 
-//    @PutMapping(path="/MoveElev/{id_elev}")
-//    public void moveElev(@PathVariable int idElev, @RequestBody Clasa nouaClasa)
-//    {
-//        elevService.moveElev(int idElev, Clasa nouaClasa);
-//    }
+    @PutMapping(path="/MoveElev/{idElev}")
+    public void moveElev(@PathVariable int idElev, @RequestBody Clasa nouaClasa)
+    {
+        elevService.moveElev(idElev,nouaClasa);
+    }
+
+    @DeleteMapping(path="/Delete/{idElev}")
+    public void deleteElev(@PathVariable int idElev)
+    {
+        elevService.deleteElev(idElev);
+    }
 }
+
