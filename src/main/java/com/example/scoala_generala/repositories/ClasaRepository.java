@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface ClasaRepository extends JpaRepository<Clasa,Integer> {
 
+    Optional<Clasa> findByNumeClasa(String numeClasa);
+
 }

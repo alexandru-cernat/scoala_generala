@@ -24,5 +24,4 @@ public class ClasaController {
     // afiseaza toate clasele si implicit elevii si profesorii din fiecare
     @GetMapping(path="/getAll")
     public List<Clasa> getClase(){return clasaService.getClase();}
-
 }

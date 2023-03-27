@@ -11,4 +11,7 @@ import java.util.Optional;
 public interface ElevRepository extends CrudRepository<Elev,Integer> {
     Optional<Elev> findBySSN(String SSN);
     Optional<Elev> findById(int id);
+    Optional<Elev> findByEmailAddress(String emailAddress);
+    Optional<Elev> findByPhoneNumber(String phoneNumber);
+
 }

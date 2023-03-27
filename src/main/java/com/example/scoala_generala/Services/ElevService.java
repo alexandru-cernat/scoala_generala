@@ -6,10 +6,14 @@ import com.example.scoala_generala.repositories.ClasaRepository;
 import com.example.scoala_generala.repositories.ElevRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
-import java.util.List;
-import java.util.Optional;
+import javax.transaction.Transactional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -19,9 +23,15 @@ public class ElevService {
     private final ElevRepository elevRepository;
     private final ClasaRepository clasaRepository;
 
-    public Optional<Elev> getElevBySSN (String SSN)
+    public ResponseEntity<?> getElevBySSN (String SSN)
     {
-        return elevRepository.findBySSN(SSN);
+        Optional<Elev> elevOptional = elevRepository.findBySSN((SSN));
+        if (!elevOptional.isPresent()){
+            String error = "Elevul cu CNP-ul specificat NU exista";
+            return ResponseEntity.badRequest().body(error);
+
+        }
+    return ResponseEntity.ok(elevOptional.get());
     }
 
     public List<Elev> getElevi() {
@@ -29,54 +39,102 @@ public class ElevService {
     }
 
 
-    public void addElev(Elev elev )
-    {
-        elevRepository.save(elev);
+public ResponseEntity<Object> addElev( Elev elev, BindingResult bindingResult) {
+    List<String> errors = new ArrayList<>();
+
+    if (elevRepository.findByEmailAddress(elev.getEmailAddress()).isPresent()) {
+        errors.add("e-mail deja existent");
+    }
+    if (elevRepository.findBySSN(elev.getSSN()).isPresent()) {
+        errors.add("CNP deja existent");
+    }
+    if (elevRepository.findByPhoneNumber(elev.getPhoneNumber()).isPresent()) {
+        errors.add("nr telefon deja existent");
+    }
+    Set<String> validClassNames = new HashSet<>(Arrays.asList
+            ("5A", "5B", "5C", "5D",
+                    "6A", "6B", "6C","6D",
+                    "7A", "7B", "7C", "7D",
+                    "8A", "8B", "8C", "8D"));
+
+    if (!validClassNames.contains(elev.getClasa().getNumeClasa())) {
+        errors.add("clasa la care vreti sa adaugati elevul nu exista");
     }
 
-    public void asigneazaClasa ( int id_elev, Clasa clasaAsignata)
-    {
-        Optional<Elev> elevOptional = elevRepository.findById(id_elev);
-        if (elevOptional.isPresent()){
-            Elev elevNou = elevOptional.get();
-            elevNou.setClasa(clasaAsignata);
-            elevRepository.save(elevNou);
-
-            clasaAsignata.appendEleviiClasei(elevNou);
-            clasaRepository.save(clasaAsignata);
-
-        }
+    if (bindingResult.hasErrors()) {
+        errors.addAll(bindingResult.getFieldErrors()
+                .stream()
+                .map(error -> error.getDefaultMessage())
+                .collect(Collectors.toList()));
     }
 
-    public void moveElev(int idElev, Clasa nouaClasa){
-        Optional<Elev> elevOptional= elevRepository.findById(idElev);
-        if(elevOptional.isPresent()){
-            Elev elevMutat = elevOptional.get();
-            Clasa clasaVeche = elevMutat.getClasa();
-            clasaVeche.stergeEleviiClasei(elevMutat);
-            clasaRepository.save(clasaVeche);
+    if (!errors.isEmpty()) {
+        return ResponseEntity.badRequest().body(errors);
+    }
 
-            // adauga clasa noua elevului
-            elevMutat.setClasa(nouaClasa);
-            elevRepository.save(elevMutat);
-
-            // adaugarea in lista de elevi a clasei noi
-
-            nouaClasa.appendEleviiClasei(elevMutat);
-            clasaRepository.save(nouaClasa);
+    elevRepository.save(elev);
+    return ResponseEntity.ok().build();
+}
 
 
+
+    public ResponseEntity<Object> moveElev(int idElev, Clasa nouaClasa){
+        List<String> errors = new ArrayList<>();
+
+        Optional<Elev> elevOptional = elevRepository.findById(idElev);
+        if(!elevOptional.isPresent()) { errors.add("Elevul cu id-ul specificat nu exista!");}
+
+        if(!clasaRepository.findByNumeClasa(nouaClasa.getNumeClasa()).isPresent()){
+            errors.add("Clasa la care vreti sa mutati elevul nu exista!");
+        }else {
+            if(clasaRepository.findByNumeClasa(nouaClasa.getNumeClasa())
+                    .get().
+                    getNumeClasa().equals(elevRepository.findById(idElev)
+                    .get().getClasa().getNumeClasa())) {
+                errors.add("Elevul este deja la aceasta clasa!");
+            }
         }
+
+
+
+        if(!errors.isEmpty())
+        {
+            return ResponseEntity.badRequest().body(errors);
+        }
+
+        Elev elevMutat = elevOptional.get();
+        Clasa clasaVeche = elevMutat.getClasa();
+        clasaVeche.stergeEleviiClasei(elevMutat);
+        clasaRepository.save(clasaVeche);
+
+        // adauga clasa noua elevului
+        elevMutat.setClasa(nouaClasa);
+        elevRepository.save(elevMutat);
+
+        // adaugarea in lista de elevi a clasei noi
+
+        nouaClasa.appendEleviiClasei(elevMutat);
+        clasaRepository.save(nouaClasa);
+
+       return ResponseEntity.ok().build(); }
+
+
+    public ResponseEntity<Object> deleteElev (int idElev){
+
+        List<String> errors = new ArrayList<>();
+        Optional<Elev> elevOptional = elevRepository.findById(idElev);
+        if(!elevOptional.isPresent()){
+            errors.add("Elevul cu id-ul specificat nu exista!");
+        }
+        if(!errors.isEmpty()){
+            return ResponseEntity.badRequest().body(errors);
+        }
+
+        elevRepository.delete(elevOptional.get());
+
+        return ResponseEntity.ok().build();
 
     }
-        public void deleteElev(int idElev){
-            // sterg elevul si din clasa
-            Optional<Elev> elevOptional = elevRepository.findById(idElev);
-            Elev elevSters = elevOptional.get();
 
-            Clasa clasaElevului = elevSters.getClasa();
-            elevRepository.delete(elevSters);
-            clasaElevului.stergeEleviiClasei(elevSters);
-            clasaRepository.save(clasaElevului);
-        }
+
 }

@@ -9,8 +9,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -28,8 +31,8 @@ public class ProfesorController {
     }
 
     @PostMapping(path="addProfesor")
-    public void addProfesor(@RequestBody Profesor profesor)
+    public ResponseEntity<?> addProfesor(@Valid @RequestBody Profesor profesor, BindingResult bindingResult)
     {
-        profesorService.addProfesor(profesor);
+       return profesorService.addProfesor(profesor, bindingResult);
     }
 }

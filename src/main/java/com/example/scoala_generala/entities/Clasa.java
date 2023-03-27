@@ -1,6 +1,7 @@
 package com.example.scoala_generala.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,14 +21,17 @@ import java.util.List;
 public class Clasa {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
     private String numeClasa;
 
     @OneToMany(mappedBy = "clasa")
     @JsonManagedReference
     private List<Elev> eleviiClasei = new ArrayList<>();
+
+    public Clasa(Clasa nouaClasa) {
+        this.setNumeClasa(nouaClasa.getNumeClasa());
+        this.setEleviiClasei(nouaClasa.getEleviiClasei());
+        this.setProfesoriiClasei(nouaClasa.getProfesoriiClasei());
+    }
 
 
     public void appendEleviiClasei(Elev e) {
