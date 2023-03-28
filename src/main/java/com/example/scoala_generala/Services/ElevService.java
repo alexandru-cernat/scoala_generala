@@ -5,6 +5,7 @@ import com.example.scoala_generala.entities.Elev;
 import com.example.scoala_generala.repositories.ClasaRepository;
 import com.example.scoala_generala.repositories.ElevRepository;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ElevService {
 
-    @Autowired
     private final ElevRepository elevRepository;
     private final ClasaRepository clasaRepository;
 
@@ -27,11 +27,11 @@ public class ElevService {
     {
         Optional<Elev> elevOptional = elevRepository.findBySSN((SSN));
         if (!elevOptional.isPresent()){
-            String error = "Elevul cu CNP-ul specificat NU exista";
+            String error = "Elevul cu CNP-ul specificat NU exista!";
             return ResponseEntity.badRequest().body(error);
 
         }
-    return ResponseEntity.ok(elevOptional.get());
+    return ResponseEntity.ok().body(elevOptional.get());
     }
 
     public List<Elev> getElevi() {
@@ -82,18 +82,24 @@ public ResponseEntity<Object> addElev( Elev elev, BindingResult bindingResult) {
         List<String> errors = new ArrayList<>();
 
         Optional<Elev> elevOptional = elevRepository.findById(idElev);
-        if(!elevOptional.isPresent()) { errors.add("Elevul cu id-ul specificat nu exista!");}
+        if(!elevOptional.isPresent()) {
+            errors.add("Elevul cu id-ul specificat nu exista!");
+            return ResponseEntity.badRequest().body(errors);
+            }
 
         if(!clasaRepository.findByNumeClasa(nouaClasa.getNumeClasa()).isPresent()){
             errors.add("Clasa la care vreti sa mutati elevul nu exista!");
-        }else {
-            if(clasaRepository.findByNumeClasa(nouaClasa.getNumeClasa())
-                    .get().
-                    getNumeClasa().equals(elevRepository.findById(idElev)
-                    .get().getClasa().getNumeClasa())) {
-                errors.add("Elevul este deja la aceasta clasa!");
-            }
+            return ResponseEntity.badRequest().body(errors);
         }
+        if(clasaRepository.findByNumeClasa(nouaClasa.getNumeClasa())
+                .get()
+                .getNumeClasa()
+                .equals(elevRepository.findById(idElev).get().getClasa().getNumeClasa()))
+        {
+            errors.add("Elevul este deja la aceasta clasa!");
+            return ResponseEntity.badRequest().body(errors);
+        }
+
 
 
 
@@ -125,8 +131,6 @@ public ResponseEntity<Object> addElev( Elev elev, BindingResult bindingResult) {
         Optional<Elev> elevOptional = elevRepository.findById(idElev);
         if(!elevOptional.isPresent()){
             errors.add("Elevul cu id-ul specificat nu exista!");
-        }
-        if(!errors.isEmpty()){
             return ResponseEntity.badRequest().body(errors);
         }
 

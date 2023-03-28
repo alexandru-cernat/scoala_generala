@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ProfesorService {
 
-    @Autowired
     private final ProfesorRepository profesorRepository;
 
     public List<Profesor> getProfesori() { return (List<Profesor>) profesorRepository.findAll();}
@@ -29,9 +28,11 @@ public class ProfesorService {
 
         if(profesorRepository.findByPhoneNumber(profesor.getPhoneNumber()).isPresent()){
             errors.add("Acest numar de telefon exista deja!");
+            return ResponseEntity.badRequest().body(errors);
         }
         if(profesorRepository.findByEmailAddress(profesor.getEmailAddress()).isPresent()){
             errors.add("Acest e-mail exista deja!");
+            return ResponseEntity.badRequest().body(errors);
         }
 
         if (bindingResult.hasErrors()) {

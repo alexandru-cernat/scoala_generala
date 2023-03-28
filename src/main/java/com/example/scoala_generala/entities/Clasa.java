@@ -34,6 +34,7 @@ public class Clasa {
     }
 
 
+
     public void appendEleviiClasei(Elev e) {
         this.eleviiClasei.add(e);
     }
@@ -45,4 +46,8 @@ public class Clasa {
 
     @ManyToMany (mappedBy = "claseleProfesorului")
     private List<Profesor> profesoriiClasei = new ArrayList<>();
+
+    public Clasa(String numeClasa) {
+        this.numeClasa = numeClasa;
+    }
 }

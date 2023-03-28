@@ -2,10 +2,7 @@ package com.example.scoala_generala.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -17,6 +14,7 @@ import javax.validation.constraints.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class Elev {
 
     @Id
@@ -40,4 +38,13 @@ public class Elev {
     @JsonBackReference
     private Clasa clasa;
 
+    public Elev(String firstName, String lastName, String address, String emailAddress, String phoneNumber, String SSN, Clasa clasa) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.emailAddress = emailAddress;
+        this.phoneNumber = phoneNumber;
+        this.SSN = SSN;
+        this.clasa = clasa;
+    }
 }

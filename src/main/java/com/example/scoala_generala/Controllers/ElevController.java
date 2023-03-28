@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -38,7 +37,7 @@ public class ElevController {
 
     //Adauga un nou elev.
     @PostMapping(path="/Add")
-    public ResponseEntity<?> addElev (@Valid @RequestBody Elev elev, BindingResult bindingResult){
+    public ResponseEntity<Object> addElev (@Valid @RequestBody Elev elev, BindingResult bindingResult){
         return elevService.addElev(elev, bindingResult);
     }
 
