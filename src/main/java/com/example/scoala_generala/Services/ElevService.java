@@ -11,8 +11,10 @@ import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.transaction.Transactional;
+import java.net.URI;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -73,7 +75,8 @@ public ResponseEntity<Object> addElev( Elev elev, BindingResult bindingResult) {
     }
 
     elevRepository.save(elev);
-    return ResponseEntity.ok().build();
+    URI location = URI.create("/api/v1/elevi/Add/"+elev.getId());
+    return ResponseEntity.created(location).build();
 }
 
 

@@ -93,7 +93,7 @@ class ElevServiceTest {
         //when
         ResponseEntity<Object> result = elevService.addElev(elev, bindingResult);
         //then
-        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals(HttpStatus.CREATED, result.getStatusCode());
         verify(elevRepository, times(1)).save(any(Elev.class));
     }
 

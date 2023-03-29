@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -44,7 +45,8 @@ public class ProfesorService {
         if(!errors.isEmpty())
             return ResponseEntity.badRequest().body(errors);
         profesorRepository.save(profesor);
-        return ResponseEntity.ok().build();
+        URI location = URI.create("/api/v1/profesori/addProfesor/"+profesor.getId());
+        return ResponseEntity.created(location).build();
 
     }
 }
