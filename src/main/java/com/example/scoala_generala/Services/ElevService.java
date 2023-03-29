@@ -4,16 +4,13 @@ import com.example.scoala_generala.entities.Clasa;
 import com.example.scoala_generala.entities.Elev;
 import com.example.scoala_generala.repositories.ClasaRepository;
 import com.example.scoala_generala.repositories.ElevRepository;
-import lombok.AllArgsConstructor;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.transaction.Transactional;
 import java.net.URI;
 import java.util.*;
 import java.util.stream.Collectors;

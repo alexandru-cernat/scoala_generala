@@ -4,7 +4,6 @@ package com.example.scoala_generala.Services;
 import com.example.scoala_generala.entities.Profesor;
 import com.example.scoala_generala.repositories.ProfesorRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -12,7 +11,6 @@ import org.springframework.validation.BindingResult;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

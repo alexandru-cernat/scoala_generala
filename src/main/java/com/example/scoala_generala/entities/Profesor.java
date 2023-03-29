@@ -2,12 +2,12 @@ package com.example.scoala_generala.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.boot.context.properties.bind.Name;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;

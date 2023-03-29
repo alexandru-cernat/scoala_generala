@@ -1,11 +1,11 @@
 package com.example.scoala_generala.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.Valid;
+
 import javax.validation.constraints.*;
 
 @Entity
