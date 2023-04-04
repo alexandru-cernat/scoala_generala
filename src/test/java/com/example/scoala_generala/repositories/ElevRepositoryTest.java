@@ -2,9 +2,12 @@ package com.example.scoala_generala.repositories;
 
 import com.example.scoala_generala.entities.Clasa;
 import com.example.scoala_generala.entities.Elev;
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -24,7 +27,8 @@ class ElevRepositoryTest {
     private ClasaRepository clasaRepositoryTest;
 
 
-    @Test
+
+        @Test
     void itShouldfindBySSN() {
         //given
         Clasa clasa = new Clasa("5A");
@@ -72,7 +76,7 @@ class ElevRepositoryTest {
                 clasa);
         elevRepositoryTest.save(elev);
         //when
-        Optional<Elev> elevCautat = elevRepositoryTest.findById(1);
+        Optional<Elev> elevCautat = elevRepositoryTest.findById(elev.getId());
         //then
         assertTrue(elevCautat.isPresent());
         assertEquals(elev.getSSN(),elevCautat.get().getSSN());
@@ -85,7 +89,7 @@ class ElevRepositoryTest {
 
     }
 
-    @Disabled
+
     @Test
     void findByEmailAddress() {
         //given
@@ -116,7 +120,7 @@ class ElevRepositoryTest {
 
     }
 
-    @Disabled
+
     @Test
     void findByPhoneNumber() {
         //given

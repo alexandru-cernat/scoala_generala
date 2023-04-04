@@ -42,8 +42,8 @@ class ProfesorServiceIntegrationTest {
         mockMvc.perform(get("/api/v1/profesori/getAll"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].firstName").value("Ionescuu"))
-                .andExpect(jsonPath("$[1].phoneNumber").value("0777701145"));
+                .andExpect(jsonPath("$[0].firstName").value("Andrei"))
+                .andExpect(jsonPath("$[1].phoneNumber").value("0755223377"));
 
 
     }
@@ -58,7 +58,7 @@ class ProfesorServiceIntegrationTest {
         listaClase.add(C2);
 
         Profesor profesorInexistentInBazaDeDate = new Profesor(
-                7,
+                17,
                 "Gabriel",
                 "Spiridon",
                 "0768543345",
@@ -82,10 +82,10 @@ class ProfesorServiceIntegrationTest {
         listaClase.add(C1);
         listaClase.add(C2);
         Profesor profesorExistent = new Profesor(
-                6,
+
                 "Ionescuu",
                 "George",
-                "0767701145",
+                "0755223377",
                 "ipopescu.mihai.profesor@gmail.com",
                 "iistorie",
                 listaClase);

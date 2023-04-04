@@ -45,8 +45,8 @@ class ElevServiceIntegrationTest {
         mockMvc.perform(get("/api/v1/elevi/getAll"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].emailAddress").value("marian3.ion@gmail.com"))
-                .andExpect(jsonPath("$[2].ssn").value("3111111111152"));
+                .andExpect(jsonPath("$[0].emailAddress").value("marian2.ion@gmail.com"))
+                .andExpect(jsonPath("$[2].ssn").value("5111111111178"));
     }
 
     @Test
@@ -88,8 +88,8 @@ class ElevServiceIntegrationTest {
     @Rollback
     void canMoveElevDejaEsteLaClasaAceea() throws Exception{
 
-        int idExistent = 4;
-        String clasaNoua = "{\"numeClasa\":\"5A\"}";
+        int idExistent = 2;
+        String clasaNoua = "{\"numeClasa\":\"5B\"}";
         mockMvc.perform(put("/api/v1/elevi/MoveElev/" + idExistent)
                 .contentType(APPLICATION_JSON)
                 .content(clasaNoua))

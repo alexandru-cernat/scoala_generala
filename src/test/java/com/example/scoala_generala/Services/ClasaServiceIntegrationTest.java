@@ -19,7 +19,7 @@ class ClasaServiceIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
-    
+
     @Test
     @DisplayName("Check if we can get all 'clase'")
     void canGetClase() throws Exception {

@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
 import javax.naming.Binding;
+import javax.transaction.Transactional;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -119,6 +120,7 @@ class ProfesorServiceTest {
 
     }
     @Test
+    @Transactional
     void canAddProfesorHappyPath(){
         //given
         Clasa C1 = new Clasa("5A");
@@ -127,12 +129,12 @@ class ProfesorServiceTest {
         listaClaselor.add(C1);
         listaClaselor.add(C2);
 
-        Profesor profesor = new Profesor(1,
-                "Ion",
-                "Dolanescu",
-                "0767794356",
-                "ion.dolanescu@yahoo.com",
-                "informatica",listaClaselor );
+        Profesor profesor = new Profesor(10,
+                "Mihai",
+                "Cristescu",
+                "0765244752",
+                "mihai.cristescuu@gmail.com",
+                "istorie",listaClaselor );
 
         BindingResult bindingResult = mock(BindingResult.class);
         when(profesorRepository.findByEmailAddress(profesor.getEmailAddress())).thenReturn(Optional.empty());
@@ -142,7 +144,7 @@ class ProfesorServiceTest {
         ResponseEntity<Object> response = profesorService.addProfesor(profesor,bindingResult);
 
         //then
-        assertTrue(response.getStatusCode().equals(HttpStatus.OK));
+        assertTrue(response.getStatusCode().equals(HttpStatus.CREATED));
         verify(profesorRepository, times(1)).save(profesor);
 
     }

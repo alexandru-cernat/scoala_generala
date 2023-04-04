@@ -46,5 +46,21 @@ public class Profesor {
     @JsonBackReference
     private List<Clasa> claseleProfesorului = new ArrayList<>();
 
+    public Profesor(String firstName, String lastName, String phoneNumber, String emailAddress, String specialty, List<Clasa> claseleProfesorului) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.emailAddress = emailAddress;
+        this.specialty = specialty;
+        this.claseleProfesorului = claseleProfesorului;
+    }
+
+    public Profesor(String firstName, String lastName, String phoneNumber, String emailAddress, String specialty) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.emailAddress = emailAddress;
+        this.specialty = specialty;;
+    }
 }
 
